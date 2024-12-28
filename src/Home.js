@@ -24,7 +24,7 @@ function Home() {
               service, security, and convenience. Whether you're looking to
               manage your daily finances, invest in your future, or need a loan
               for a major purchase, we're here to help you every step of the
-              way.
+              way. It will provide a best service to the customers.
             </p>
             <p className="text-lg my-2">
               JUST Bank is committed to providing you with the highest level of
