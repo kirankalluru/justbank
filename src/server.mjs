@@ -159,27 +159,34 @@ app.post("/api/withdrawl", async (req, res) => {
     const customer = await Customer.findOne({ username, accountnumber });
 
     customer.balance = Number(customer.balance) - Number(withdrawlamount);
+
+    if(customer.balance<0){
+      return res.status(400).json({ message: "Insufficient balance" });
+    }
+    else{
+      await customer.save();
+    
+
+      // Create a new withdrawal record
+      const newWithdrawl = new Withdrawl({
+        username,
+        accountnumber,
+        withdrawlamount,
+        withdrawltype,
+      });
+  
+      // Save the record to the database
+      await newWithdrawl.save();
+  
+      // Send success response
+      res.status(201).json({ message: "Withdrawal record created successfully", 
+        balance: customer.balance
+      });
+    }
     
     
 
-    await customer.save();
-    
 
-    // Create a new withdrawal record
-    const newWithdrawl = new Withdrawl({
-      username,
-      accountnumber,
-      withdrawlamount,
-      withdrawltype,
-    });
-
-    // Save the record to the database
-    await newWithdrawl.save();
-
-    // Send success response
-    res.status(201).json({ message: "Withdrawal record created successfully", 
-      balance: customer.balance
-    });
   } catch (error) {
     console.error("Error saving withdrawal record:", error);
 

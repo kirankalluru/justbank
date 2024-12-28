@@ -29,6 +29,12 @@ const WithdrawlForm = ({ customer, updatebalance }) => {
       });
     } catch (error) {
       console.log("Withdrawal failed", error);
+      swal({
+        title: "Withdrawal Successful",
+        text: `Amount Withdrawl failed due to ${error.response.data.message}`,
+        icon: "error",
+        button: "Ok",
+      });
     }
 
     setWithdrawl({
