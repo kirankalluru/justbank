@@ -229,6 +229,4 @@ app.post("/api/withdrawl", async (req, res) => {
 
 
 // Start Server
-app.listen(process.env.PORT, () => {
-  console.log(`Server running at port ${PORT}`);
-});
+app.listen(process.env.PORT || 3001);
