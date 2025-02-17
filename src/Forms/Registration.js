@@ -33,13 +33,7 @@ function Registration() {
       error.response && alert(error.response.data.message);
       alert("An error occurred. Please try again.");
     }
-    setSignupData({
-      username: "",
-      password: "",
-      accountnumber: "",
-      branch: "",
-      phonenumber: "",
-    });
+    
   };
 
   const handleclear = () => {
