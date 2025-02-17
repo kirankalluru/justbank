@@ -2,7 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
-
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 const PORT = 3001;
 
@@ -13,11 +14,8 @@ app.use(cors());
 // MongoDB Connection
 
 
-const mongoURI = 'mongodb+srv://kiran:kalluru@backenddb.qsorw.mongodb.net/NODE-API?retryWrites=true&w=majority&appName=BackendDB';
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+
+mongoose.connect(process.env.mongoURI);
 
 const db = mongoose.connection;
 db.once("open", () => {
@@ -46,10 +44,41 @@ app.post("/api/signup", async (req, res) => {
       branch,
       phonenumber,
     });
+
+    //validate account number
+    const existingCustomer = await Customer
+      .findOne({ accountnumber })
+      .select("accountnumber");
+    if (existingCustomer) {
+      return res.status(401).json({ message: "Account number already exists" });
+    }
+
+    //valiadte username
+    const existingCustomer1 = await Customer
+      .findOne({ username
+      })
+      .select("username");
+    if (existingCustomer1) {
+      return res.status(401).json({ message: "Username already exists" });
+    }
+
+
+    //valiadte phonenumber
+    const existingCustomer2 = await Customer
+      .findOne({ phonenumber
+      })
+      .select("phonenumber");
+    if (existingCustomer2) {
+      return res.status(401).json({ message: "Phone number already exists" });
+    }
+
+
+
     await newCustomer.save();
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     console.error(error);
+    
     res.status(500).json({ message: "Internal server error" });
   }
 });
@@ -200,6 +229,6 @@ app.post("/api/withdrawl", async (req, res) => {
 
 
 // Start Server
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server running at port ${PORT}`);
 });

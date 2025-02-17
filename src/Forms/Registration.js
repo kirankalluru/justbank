@@ -30,6 +30,7 @@ function Registration() {
       navigate("/login")
     } catch (error) {
       console.error("Error:", error);
+      error.response && alert(error.response.data.message);
       alert("An error occurred. Please try again.");
     }
     setSignupData({

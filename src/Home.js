@@ -15,7 +15,9 @@ function Home() {
               src={banklogo}
               alt="banklogo"
             />
-            <h1 className="text-3xl text-center font-medium py-4">Welcome to Just Bank</h1>
+            <h1 className="text-3xl text-center font-medium py-4">
+              Welcome to Just Bank
+            </h1>
             <h2 className="text-xl font-semibold py-2">
               Your Trusted Financial Partner
             </h2>
