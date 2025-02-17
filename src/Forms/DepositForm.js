@@ -16,7 +16,7 @@ const DepositForm = ({ customer, updatebalance }) => {
         
 
         try {
-            const response = await axios.post("http://localhost:3001/api/deposit", depositData);
+            const response = await axios.post("https://justbank.onrender.com/api/deposit", depositData);
             console.log(response.data.balance);
             updatebalance(response.data.balance);
 

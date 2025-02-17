@@ -15,7 +15,7 @@ const WithdrawlForm = ({ customer, updatebalance }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/withdrawl",
+        "https://justbank.onrender.com/api/withdrawl",
         withdrawl
       );
 

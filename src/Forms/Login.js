@@ -23,7 +23,7 @@ const Login = ({updatecustomer}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/api/login", logindata);
+      const response = await axios.post("https://justbank.onrender.com/api/login", logindata);
       updatecustomer(response.data.customer)
       toast.success(response.data.message);
       setTimeout(()=>{

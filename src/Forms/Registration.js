@@ -14,7 +14,7 @@ function Registration() {
   const handlesubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/api/signup", {
+      const response = await fetch("https://justbank.onrender.com/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
