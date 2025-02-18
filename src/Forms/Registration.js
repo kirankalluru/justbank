@@ -26,8 +26,6 @@ function Registration() {
       console.error("Error:", error);
       if (error.response) {
         alert("Error: " + error.response.data.message);
-      } else {
-        alert("An error occurred. Please try again.");
       }
     }
   };
