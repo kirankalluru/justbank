@@ -11,6 +11,15 @@ const PORT = 3001;
 app.use(bodyParser.json());
 app.use(cors());
 
+
+app.use(express.static('public', { 
+  setHeaders: (res, path) => {
+      if (path.endsWith('.css')) {
+          res.setHeader('Content-Type', 'text/css');
+      }
+  }
+}));
+
 // MongoDB Connection
 
 
