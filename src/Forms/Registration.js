@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import regimg from "../images/registrationimg.png";
 import { useNavigate } from "react-router-dom";
-const axios = require('axios');
+import axios from "axios";
 function Registration() {
   const navigate = useNavigate();
   const [signupData, setSignupData] = useState({
@@ -14,19 +14,22 @@ function Registration() {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+    console.log("Sending signup data:", signupData);
     try {
       const response = await axios.post("https://justbank.onrender.com/api/signup", signupData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+      console.log("Response from server:", response.data);
       alert(response.data.message);
       navigate("/login");
     } catch (error) {
-      alert(error);
-      console.log(error);
+      console.error("Error:", error.response ? error.response.data : error.message);
+      alert(error.response?.data?.message || "Registration failed");
     }
   };
+  
 
   const handleclear = () => {
     setSignupData({
