@@ -45,33 +45,6 @@ app.post("/api/signup", async (req, res) => {
       phonenumber,
     });
 
-    //validate account number
-    const existingCustomer = await Customer
-      .findOne({ accountnumber })
-      .select("accountnumber");
-    if (existingCustomer) {
-      return res.status(401).json({ message: "Account number already exists" });
-    }
-
-    //valiadte username
-    const existingCustomer1 = await Customer
-      .findOne({ username
-      })
-      .select("username");
-    if (existingCustomer1) {
-      return res.status(401).json({ message: "Username already exists" });
-    }
-
-
-    //valiadte phonenumber
-    const existingCustomer2 = await Customer
-      .findOne({ phonenumber
-      })
-      .select("phonenumber");
-    if (existingCustomer2) {
-      return res.status(401).json({ message: "Phone number already exists" });
-    }
-
 
 
     await newCustomer.save();
