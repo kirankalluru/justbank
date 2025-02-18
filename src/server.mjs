@@ -54,6 +54,28 @@ app.post("/api/signup", async (req, res) => {
       phonenumber,
     });
 
+    //send error if user already exists
+    const userExists = await Customer
+      .findOne({ username });
+    if (userExists) {
+      return res.status(401).json({ message: "User already exists" });
+    }
+
+    //send error if account number already exists
+    const accountExists = await Customer
+      .findOne({ accountnumber });
+    if (accountExists) {
+      return res.status(401).json({ message: "Account number already exists" });
+    }
+
+    //send error if phone number already exists
+    const phoneExists = await Customer
+      .findOne({ phonenumber });
+    if (phoneExists) {
+      return res.status(401).json({ message: "Phone number already exists" });
+
+    }
+
 
 
     await newCustomer.save();
