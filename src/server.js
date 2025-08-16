@@ -118,10 +118,10 @@ app.post("/api/login", async (req, res) => {
 const depositSchema = new mongoose.Schema({
   username: { type: String, required: true },
   accountnumber: { type: Number, required: true },
-  date: { type: Date, required: true },
+  date: { type: Date, required: true },      // value date (kept)
   depositamount: { type: Number, required: true },
   deposittype: { type: String, required: true },
-});
+}, { timestamps: true });
 
 const Deposit = mongoose.model("Deposit", depositSchema); 
 
@@ -175,10 +175,10 @@ app.post("/api/deposit", async (req, res) => {
 const withdrawlSchema = new mongoose.Schema({
   username: String,
   accountnumber: Number,
-  date: { type: Date, default: Date.now }, // Automatically sets the current date
+  date: { type: Date, default: Date.now },
   withdrawlamount: Number,
   withdrawltype: String,
-});
+}, { timestamps: true });
 
 const Withdrawl = mongoose.model("Withdrawl", withdrawlSchema);
 
@@ -190,6 +190,10 @@ app.post("/api/withdrawl", async (req, res) => {
     const { username, accountnumber, withdrawlamount, withdrawltype } = req.body;
 
     const customer = await Customer.findOne({ username, accountnumber });
+
+    if(withdrawlamount>customer.balance){
+      return res.status(400).json({ message: "Insufficient balance" });
+    }
 
     customer.balance = Number(customer.balance) - Number(withdrawlamount);
 
@@ -227,6 +231,57 @@ app.post("/api/withdrawl", async (req, res) => {
     res.status(500).json({ error: "Failed to create withdrawal record" });
   }
 });
+
+
+//show all transactions
+
+app.get("/api/transactions/:username/:accountnumber", async (req, res) => {
+  try {
+    const { username, accountnumber } = req.params;
+    const accNum = Number(accountnumber);
+
+    const deposits = await Deposit
+      .find({ username, accountnumber: accNum })
+      .select("date depositamount deposittype createdAt _id")
+      .lean();
+
+    const withdrawals = await Withdrawl
+      .find({ username, accountnumber: accNum })
+      .select("date withdrawlamount withdrawltype createdAt _id")
+      .lean();
+
+    const depositTransactions = deposits.map(d => ({
+      type: "deposit",
+      amount: d.depositamount,
+      transactionType: d.deposittype,
+      // what to display
+      date: d.date || d.createdAt || d._id.getTimestamp(),
+      // what to sort by (true creation time)
+      postedAt: d.createdAt || d._id.getTimestamp(),
+    }));
+
+    const withdrawalTransactions = withdrawals.map(w => ({
+      type: "withdrawal",
+      amount: w.withdrawlamount,
+      transactionType: w.withdrawltype,
+      date: w.date || w.createdAt || w._id.getTimestamp(),
+      postedAt: w.createdAt || w._id.getTimestamp(),
+    }));
+
+    const transactions = [...depositTransactions, ...withdrawalTransactions]
+      .sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt)); // ✅ newest first
+
+    res.status(200).json({ message: "Transactions fetched successfully", transactions });
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+
+
+
 
 
 

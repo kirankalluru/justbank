@@ -8,44 +8,40 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import DepositForm from './Forms/DepositForm';
 import WithdrawlForm from './Forms/WithdrawlForm';
+import Transactions from './Forms/Transactions';   // ✅ Import new component
 
 function App() {
   const [customer, setCustomer] = useState();
-  const updatecustomer=(userdata)=>{
-    setCustomer(userdata)
+  const updatecustomer = (userdata) => {
+    setCustomer(userdata);
     console.log(userdata);
-
-  }
+  };
 
   const [updatedbalance, setUpdatedbalance] = useState(0);
-  
-  
 
-  const updatebalance = (newbalance)=>{
-    setUpdatedbalance(newbalance)
-  }
+  const updatebalance = (newbalance) => {
+    setUpdatedbalance(newbalance);
+  };
 
-
-   
-
-  
   return (
     <>
       <Router>
-        <Navbar customer={customer} setCustomer={setCustomer}/>
+        <Navbar customer={customer} setCustomer={setCustomer} />
         
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login updatecustomer={updatecustomer}/>} />
+          <Route path="/login" element={<Login updatecustomer={updatecustomer} />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/Accountdetail" element={<Accountdetail customer={customer} updatedbalance={updatedbalance} />} />
           <Route path="/DepositForm" element={<DepositForm customer={customer} updatebalance={updatebalance} />} />
-          <Route path="/WithdrawlForm" element={<WithdrawlForm customer={customer} updatebalance={updatebalance}/>} />
+          <Route path="/WithdrawlForm" element={<WithdrawlForm customer={customer} updatebalance={updatebalance} />} />
+          
+          {/* ✅ New Transactions route */}
+          <Route path="/transactions" element={<Transactions customer={customer} />} />
         </Routes>
       </Router>
     </>
   );
 }
-
 
 export default App;

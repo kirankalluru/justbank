@@ -1,12 +1,23 @@
 import React from "react";
 import accdet_img from "../images/account_details.png";
+import { useNavigate } from "react-router-dom";
 
 const Accountdetail = ({ customer, updatedbalance }) => {
+  const navigate = useNavigate();
+
+  const handleShowTransactions = () => {
+    navigate("/transactions");
+  };
+
   return (
     <>
       <div className="relative min-h-screen bg-neutral-700">
         <div className="absolute inset-0 z-0">
-          <img src={accdet_img} alt="kiran" className="w-full h-full object-cover"/>
+          <img
+            src={accdet_img}
+            alt="kiran"
+            className="w-full h-full object-cover"
+          />
         </div>
         <div className="form-section absolute top-0 left-0 right-0 bottom-0 bg-neutral-900 bg-opacity-80 flex flex-col justify-center z-10">
           <div className="p-4 text-white shadow-lg accountdetails_div rounded-lg mx-auto w-11/12 sm:w-4/5 md:w-3/5 bg-neutral-800">
@@ -32,6 +43,16 @@ const Accountdetail = ({ customer, updatedbalance }) => {
               </span>{" "}
               balance
             </p>
+
+            {/* ✅ New button */}
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={handleShowTransactions}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition"
+              >
+                Show Transactions
+              </button>
+            </div>
           </div>
         </div>
       </div>
