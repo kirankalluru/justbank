@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import wimg from "../images/withdraw_img.png";
 import axios from "axios";
 import swal from "sweetalert";
+import { DollarSign, CreditCard } from "lucide-react";
 
 const WithdrawlForm = ({ customer, updatebalance }) => {
   const [withdrawl, setWithdrawl] = useState({
@@ -23,7 +24,7 @@ const WithdrawlForm = ({ customer, updatebalance }) => {
 
       swal({
         title: "Withdrawal Successful",
-        text: `Amount Withdrawn: ${withdrawl.withdrawlamount}`,
+        text: `Amount Withdrawn: $${withdrawl.withdrawlamount}`,
         icon: "success",
         button: "Ok",
       });
@@ -31,7 +32,9 @@ const WithdrawlForm = ({ customer, updatebalance }) => {
       console.log("Withdrawal failed", error);
       swal({
         title: "Withdrawal Failed",
-        text: `Amount Withdrawal failed due to ${error.response.data.message}`,
+        text: `Amount Withdrawal failed due to ${
+          error.response?.data?.message || "server error"
+        }`,
         icon: "error",
         button: "Ok",
       });
@@ -55,67 +58,96 @@ const WithdrawlForm = ({ customer, updatebalance }) => {
   };
 
   return (
-    <>
-      <div className="flex flex-col md:flex-row justify-center items-center h-screen bg-gray-200">
-        {/* Image Section */}
-        <div className="image-section mt-16 md:mt-0 w-full md:w-3/5">
-          <img
-            className="h-48 md:h-screen w-full object-cover"
-            src={wimg}
-            alt="Withdraw"
-          />
-        </div>
-
-        {/* Form Section */}
-        <div className="form-section bg-neutral-200 w-full md:w-2/5 p-5 flex flex-col justify-center">
-          <h1 className="text-green-400 font-semibold text-2xl md:text-3xl text-center mb-4">
-            Withdraw Form
-          </h1>
-          <form className="space-y-4" onSubmit={handlesubmit}>
-            <p className="text-base md:text-xl py-2 w-full md:w-3/4 my-3">
-              Username: {customer.username}
-            </p>
-            <p className="text-base md:text-xl py-2 w-full md:w-3/4 my-3">
-              Account Number: {customer.accountnumber}
-            </p>
-            <label className="block text-sm md:text-base">Withdrawal Amount</label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-red-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="number"
-              placeholder="Enter amount"
-              value={withdrawl.withdrawlamount}
-              onChange={(e) =>
-                setWithdrawl({ ...withdrawl, withdrawlamount: e.target.value })
-              }
-              required
-            />
-            <label className="block text-sm md:text-base">Withdrawal Type</label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-red-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              placeholder="Type of withdrawal (e.g., ATM, Online)"
-              value={withdrawl.withdrawltype}
-              onChange={(e) =>
-                setWithdrawl({ ...withdrawl, withdrawltype: e.target.value })
-              }
-              required
-            />
-            <div className="flex flex-col md:flex-row gap-2">
-              <button className="border bg-green-500 hover:bg-green-600 p-3 rounded my-2 w-full md:w-1/4">
-                Withdraw
-              </button>
-              <button
-                className="border bg-neutral-400 hover:bg-red-400 p-3 rounded my-2 w-full md:w-1/4"
-                type="button"
-                onClick={handleClear}
-              >
-                Clear
-              </button>
-            </div>
-          </form>
-        </div>
+    <div className="flex flex-col md:flex-row justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6">
+      {/* Image Section */}
+      <div className="hidden md:flex w-1/2 items-center justify-center">
+        <img
+          className="rounded-2xl shadow-2xl object-cover h-[500px]"
+          src={wimg}
+          alt="Withdraw"
+        />
       </div>
-    </>
+
+      {/* Form Section */}
+      <div className="w-full md:w-1/2 max-w-lg bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl p-8 mx-4">
+        <h1 className="text-emerald-400 font-bold text-3xl text-center mb-6">
+          Withdraw Funds
+        </h1>
+
+        <form className="space-y-6" onSubmit={handlesubmit}>
+          {/* User Info */}
+          <div className="bg-gray-800 p-4 rounded-lg border border-gray-700 shadow-sm">
+            <p className="text-gray-300">
+              <span className="font-semibold text-gray-200">Username:</span>{" "}
+              {customer.username}
+            </p>
+            <p className="text-gray-300">
+              <span className="font-semibold text-gray-200">
+                Account Number:
+              </span>{" "}
+              {customer.accountnumber}
+            </p>
+          </div>
+
+          {/* Amount */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-300 mb-1">
+              Withdrawal Amount
+            </label>
+            <div className="flex items-center bg-gray-800 border border-gray-700 rounded-lg px-3">
+              <DollarSign className="text-gray-400 w-5 h-5 mr-2" />
+              <input
+                className="w-full p-3 bg-transparent text-white placeholder-gray-500 focus:outline-none"
+                type="number"
+                placeholder="Enter amount"
+                value={withdrawl.withdrawlamount}
+                onChange={(e) =>
+                  setWithdrawl({ ...withdrawl, withdrawlamount: e.target.value })
+                }
+                required
+              />
+            </div>
+          </div>
+
+          {/* Type */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-300 mb-1">
+              Withdrawal Type
+            </label>
+            <div className="flex items-center bg-gray-800 border border-gray-700 rounded-lg px-3">
+              <CreditCard className="text-gray-400 w-5 h-5 mr-2" />
+              <input
+                className="w-full p-3 bg-transparent text-white placeholder-gray-500 focus:outline-none"
+                type="text"
+                placeholder="e.g., ATM, Online"
+                value={withdrawl.withdrawltype}
+                onChange={(e) =>
+                  setWithdrawl({ ...withdrawl, withdrawltype: e.target.value })
+                }
+                required
+              />
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-col md:flex-row gap-4 pt-4">
+            <button
+              type="submit"
+              className="w-full md:w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-emerald-500/40 transition-all duration-300"
+            >
+              Withdraw
+            </button>
+            <button
+              type="button"
+              onClick={handleClear}
+              className="w-full md:w-1/2 bg-gray-700 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-red-400/40 transition-all duration-300"
+            >
+              Clear
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

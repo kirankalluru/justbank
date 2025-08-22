@@ -8,129 +8,113 @@ function Navbar({ customer, setCustomer }) {
   const handleLogout = () => {
     setCustomer(null);
     navigate("/login");
+    setIsOpen(false);
+  };
+
+  // Shared menu items
+  const guestLinks = [
+    { to: "/login", label: "Login", style: "bg-gray-100 text-blue-900 hover:bg-gray-200" },
+    { to: "/registration", label: "Register", style: "bg-green-500 text-white hover:bg-green-600" },
+  ];
+
+  const customerLinks = [
+    { to: "/LoanApproval", label: "Loan Approval Prediction" },
+    { to: "/Accountdetail", label: "Account Details" },
+    { to: "/DepositForm", label: "Deposit" },
+    { to: "/WithdrawlForm", label: "Withdrawal" },
+  ];
+
+  const renderLinks = (isMobile = false) => {
+    const baseStyle =
+      "px-3 py-2 rounded-md font-medium transition-all duration-200";
+    return (
+      <>
+        <Link
+          to="/"
+          onClick={() => setIsOpen(false)}
+          className={`${baseStyle} bg-green-500 text-white hover:bg-green-600 ${
+            isMobile ? "block text-center w-full" : "inline-block"
+          }`}
+        >
+          Home
+        </Link>
+        {!customer
+          ? guestLinks.map((link, i) => (
+              <Link
+                key={i}
+                to={link.to}
+                onClick={() => setIsOpen(false)}
+                className={`${baseStyle} ${link.style} ${
+                  isMobile ? "block text-center w-full mt-2" : "ml-2"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))
+          : (
+            <>
+              {customerLinks.map((link, i) => (
+                <Link
+                  key={i}
+                  to={link.to}
+                  onClick={() => setIsOpen(false)}
+                  className={`${baseStyle} bg-gray-100 text-blue-900 hover:bg-gray-200 ${
+                    isMobile ? "block text-center w-full mt-2" : "ml-2"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <button
+                onClick={handleLogout}
+                className={`${baseStyle} bg-red-600 text-white hover:bg-red-700 ${
+                  isMobile ? "block text-center w-full mt-2" : "ml-2"
+                }`}
+              >
+                Logout
+              </button>
+            </>
+          )}
+      </>
+    );
   };
 
   return (
-    <nav className="bg-blue-800 p-4">
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className="bg-blue-900 shadow-lg">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-white text-2xl md:text-4xl font-bold">JUST Bank</div>
+        <div className="text-white text-2xl md:text-3xl font-bold tracking-wide">
+          JUST Bank
+        </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Button */}
         <button
           className="text-white md:hidden focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
           <svg
-            className="w-6 h-6"
+            className="w-7 h-7"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
               d={!isOpen ? "M4 6h16M4 12h16M4 18h16" : "M6 18L18 6M6 6l12 12"}
-            ></path>
+            />
           </svg>
         </button>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-4 items-center">
-          <Link to="/">
-            <h2 className="text-white text-xl hover:text-gray-300 bg-yellow-400 px-2 py-1 rounded">
-              Home
-            </h2>
-          </Link>
-          {!customer ? (
-            <>
-              <Link to="/login">
-                <button className="bg-white text-blue-800 px-2 py-1 rounded">
-                  Login
-                </button>
-              </Link>
-              <Link to="/registration">
-                <button className="bg-yellow-400 text-blue-800 px-2 py-1 rounded">
-                  Register
-                </button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link to="/Accountdetail">
-                <h2 className="text-white text-xl hover:text-gray-300 bg-yellow-400 px-2 py-1 rounded">
-                  Account Details
-                </h2>
-              </Link>
-              <Link to="/DepositForm">
-                <h2 className="text-white text-xl hover:text-gray-300 bg-yellow-400 px-2 py-1 rounded">
-                  Deposit
-                </h2>
-              </Link>
-              <Link to="/WithdrawlForm">
-                <h2 className="text-white text-xl hover:text-gray-300 bg-yellow-400 px-2 py-1 rounded">
-                  Withdrawal
-                </h2>
-              </Link>
-              <button
-                className="text-white text-xl hover:text-gray-300 bg-red-600 px-2 py-1 rounded"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </>
-          )}
-        </div>
+        <div className="hidden md:flex items-center">{renderLinks()}</div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden mt-4 space-y-4">
-          <Link to="/" onClick={() => setIsOpen(false)}>
-            <h2 className="text-white text-center m-2 text-lg hover:text-gray-300 bg-yellow-400 px-2 py-1 rounded w-full">
-              Home
-            </h2>
-          </Link>
-          {!customer ? (
-            <>
-              <Link to="/login" onClick={() => setIsOpen(false)}>
-                <button className="bg-white m-2 text-blue-800 px-2 py-1 rounded w-full">
-                  Login
-                </button>
-              </Link>
-              <Link to="/registration" onClick={() => setIsOpen(false)}>
-                <button className="bg-yellow-400 m-2 text-blue-800 px-2 py-1 rounded w-full">
-                  Register
-                </button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link to="/Accountdetail" onClick={() => setIsOpen(false)}>
-                <h2 className="text-white text-lg hover:text-gray-300 bg-yellow-400 px-2 py-1 m-2 rounded w-full text-center">
-                  Account Details
-                </h2>
-              </Link>
-              <Link to="/DepositForm" onClick={() => setIsOpen(false)}>
-                <h2 className="text-white text-lg hover:text-gray-300 bg-yellow-400 px-2 py-1 m-2 rounded w-full text-center">
-                  Deposit
-                </h2>
-              </Link>
-              <Link to="/WithdrawlForm" onClick={() => setIsOpen(false)}>
-                <h2 className="text-white text-lg hover:text-gray-300 bg-yellow-400 px-2 py-1 m-2 rounded w-full text-center">
-                  Withdrawal
-                </h2>
-              </Link>
-              <button
-                className="text-white text-lg hover:text-gray-300 bg-red-600 px-2 py-1 m-2 rounded w-full"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </>
-          )}
+        <div className="md:hidden bg-blue-800 px-4 py-3 rounded-lg space-y-2">
+          {renderLinks(true)}
         </div>
       )}
     </nav>

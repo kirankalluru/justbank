@@ -9,6 +9,7 @@ import { useState } from 'react';
 import DepositForm from './Forms/DepositForm';
 import WithdrawlForm from './Forms/WithdrawlForm';
 import Transactions from './Forms/Transactions';   // ✅ Import new component
+import LoanApprovalForm from './Forms/LoanApproval'
 
 function App() {
   const [customer, setCustomer] = useState();
@@ -38,6 +39,8 @@ function App() {
           
           {/* ✅ New Transactions route */}
           <Route path="/transactions" element={<Transactions customer={customer} />} />
+          <Route path="/LoanApproval" element={<LoanApprovalForm />} />
+          
         </Routes>
       </Router>
     </>

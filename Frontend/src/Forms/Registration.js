@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import regimg from "../images/registrationimg.png";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -62,17 +61,18 @@ function Registration() {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row min-h-screen">
-        <div className="image-section md:w-3/5">
-          <img className="md:h-screen w-full object-cover" src={regimg} alt="bankimg" />
-        </div>
-        <div className="form-section bg-neutral-200 md:w-2/5 px-5 flex flex-col justify-center">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-toastify@9.1.3/dist/ReactToastify.css" />
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg mx-auto bg-gray-800 shadow-xl rounded-2xl p-8">
+          <h1 className="text-3xl font-extrabold text-center text-emerald-400 mb-8">
+            Create an Account
+          </h1>
           <form className="space-y-6" onSubmit={handlesubmit}>
             <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
+              <label className="block text-gray-300 text-sm font-medium mb-2">Username</label>
               <input
                 type="text"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-red-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-200"
                 required
                 placeholder="Username"
                 value={signupData.username}
@@ -81,12 +81,12 @@ function Registration() {
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+              <label className="block text-gray-300 text-sm font-medium mb-2">Password</label>
               <input
                 type="password"
                 required
                 placeholder="Password"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-red-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-200"
                 value={signupData.password}
                 onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                 maxLength={8}
@@ -94,12 +94,12 @@ function Registration() {
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2">Account Number:</label>
+              <label className="block text-gray-300 text-sm font-medium mb-2">Account Number</label>
               <input
                 type="number"
                 required
                 placeholder="Account Number"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-red-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-200"
                 value={signupData.accountnumber}
                 onChange={(e) => {
                   if (e.target.value.length <= 14) {
@@ -110,22 +110,22 @@ function Registration() {
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2">Branch:</label>
+              <label className="block text-gray-300 text-sm font-medium mb-2">Branch</label>
               <input
                 type="text"
                 required
                 placeholder="Branch"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-red-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-200"
                 value={signupData.branch}
                 onChange={(e) => setSignupData({ ...signupData, branch: e.target.value })}
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2">Registered phone number:</label>
+              <label className="block text-gray-300 text-sm font-medium mb-2">Registered Phone Number</label>
               <input
                 type="number"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-red-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-200"
                 placeholder="Phone Number"
                 value={signupData.phonenumber}
                 onChange={(e) => {
@@ -137,11 +137,18 @@ function Registration() {
               />
             </div>
 
-            <div className="flex">
-              <button className="border bg-green-500 hover:bg-green-600 p-3 gap mx-1 rounded my-2 w-50%" type="submit">
+            <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+              <button
+                className="w-full sm:w-1/2 px-6 py-3 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                type="submit"
+              >
                 Sign up
               </button>
-              <button onClick={handleclear} className="border bg-neutral-400 hover:bg-red-400 p-3 my-2 mx-1 rounded w-50%" type="button">
+              <button
+                onClick={handleclear}
+                className="w-full sm:w-1/2 px-6 py-3 bg-gray-600 text-white font-bold rounded-lg hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                type="button"
+              >
                 Clear
               </button>
             </div>
