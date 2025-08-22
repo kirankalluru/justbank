@@ -15,7 +15,7 @@ const WithdrawlForm = ({ customer, updatebalance }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://justbank.onrender.com/api/withdrawl",
+        "https://justbank-nu.vercel.app/api/withdrawl",
         withdrawl
       );
 

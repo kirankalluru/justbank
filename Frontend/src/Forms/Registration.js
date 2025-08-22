@@ -19,7 +19,7 @@ function Registration() {
     console.log("Sending signup data:", signupData);
     try {
       const response = await axios.post(
-        "https://justbank.onrender.com/api/signup",
+        "https://justbank-nu.vercel.app/api/signup",
         signupData,
         {
           headers: {

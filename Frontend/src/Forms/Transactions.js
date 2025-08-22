@@ -15,7 +15,7 @@ const Transactions = ({ customer }) => {
     const fetchTransactions = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3001/api/transactions/${customer.username}/${customer.accountnumber}`
+          `https://justbank-nu.vercel.app/api/transactions/${customer.username}/${customer.accountnumber}`
         );
         const data = await res.json();
 
