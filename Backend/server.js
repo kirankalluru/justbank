@@ -5,7 +5,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
-const PORT = 3001;
 
 // Middleware
 app.use(bodyParser.json());
@@ -280,7 +279,9 @@ app.get("/api/transactions/:username/:accountnumber", async (req, res) => {
 
 
 
-
+app.get('/', (req, res) => {
+    res.send("API Working");
+});
 
 
 
@@ -288,4 +289,7 @@ app.get("/api/transactions/:username/:accountnumber", async (req, res) => {
 
 
 // Start Server
-app.listen(process.env.PORT || 3001);
+app.listen(process.env.PORT || 3001,()=>{
+  console.log("server started");
+  
+});
